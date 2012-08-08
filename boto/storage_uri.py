@@ -89,8 +89,14 @@ class StorageUri(object):
         # Note: the following import can't be moved up to the start of
         # this file else it causes a config import failure when run from
         # the resumable upload/download tests.
-        from boto.s3.connection import OrdinaryCallingFormat
-        connection_args['calling_format'] = OrdinaryCallingFormat()
+        #from boto.s3.connection import OrdinaryCallingFormat
+        #connection_args['calling_format'] = OrdinaryCallingFormat()
+
+        # I'm just going to go ahead and ignore the previous comment, because
+        # this works for me (even with cert validation enabled).
+        from boto.s3.connection import SubdomainCallingFormat
+        connection_args['calling_format'] = SubdomainCallingFormat()
+
         if (hasattr(self, 'suppress_consec_slashes') and
             'suppress_consec_slashes' not in connection_args):
             connection_args['suppress_consec_slashes'] = (
